@@ -7,7 +7,7 @@ ENV JENKINS_UID 1000
 
 RUN wget --progress=bar -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo && \
     rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key && \
-    yum -y install jenkins java && \
+    yum -y install java-1.8.0-openjdk-headless jenkins && \
     yum clean all
 
 # Create the sleleton 1st run
@@ -37,8 +37,6 @@ EXPOSE 8080
 
 # will be used by attached slave agents:
 EXPOSE 50000
-
-USER jenkins
 
 # Kicking in
 CMD ["/scripts/start.sh"]

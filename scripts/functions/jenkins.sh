@@ -20,11 +20,20 @@ function copy_reference_file() {
 
 function install_jenkins () {
     mkdir -p "$JENKINS_HOME"
-    chown -R jenkins "$JENKINS_HOME"
+    mkdir -p /var/log/jenkins
+    chown -R jenkins "$JENKINS_HOME" /var/log/jenkins
     mkdir -p /etc/supervisor/conf.d
     cat > /etc/supervisor/conf.d/jenkins.conf <<EOF
 [program:jenkins]
+user=jenkins
+autostart=true
+autorestart=true
 command=java $JAVA_OPTS -jar /usr/lib/jenkins/jenkins.war $JENKINS_OPTS "$@"
+redirect_stderr=true
+stdout_logfile=/var/log/jenkins/%(program_name)s.log
+stdout_logfile_maxbytes=10MB
+stdout_logfile_backups=10
+environment = JENKINS_HOME="$JENKINS_HOME",HOME="$JENKINS_HOME",USER="jenkins"
 EOF
 
     export -f copy_reference_file
