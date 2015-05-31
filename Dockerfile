@@ -1,8 +1,8 @@
 FROM muzili/centos-base:latest
 MAINTAINER Joshua lee <muzili@gmail.com>
 
+ENV JENKINS_UC https://updates.jenkins-ci.org
 ENV JENKINS_HOME /data/jenkins
-ENV JENKINS_VERSION 1.596
 ENV JENKINS_UID 1000
 
 RUN wget --progress=bar -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo && \
@@ -28,7 +28,6 @@ RUN /scripts/plugins.sh /plugins.txt
 # If you bind mount a volume from host/vloume from a data container,
 # ensure you use same uid
 RUN useradd -d "$JENKINS_HOME" -u "$JENKINS_UID" -m -s /bin/bash jenkins
-ENV JENKINS_UC https://updates.jenkins-ci.org
 RUN chown -R jenkins "$JENKINS_HOME" /usr/share/jenkins/ref
 
 # Expose our web root and log directories log.
