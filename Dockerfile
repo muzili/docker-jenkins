@@ -27,7 +27,6 @@ RUN /scripts/plugins.sh /plugins.txt
 # Jenkins is ran with user `jenkins`, uid = 1000
 # If you bind mount a volume from host/vloume from a data container,
 # ensure you use same uid
-RUN useradd -d "$JENKINS_HOME" -u "$JENKINS_UID" -m -s /bin/bash jenkins
 RUN chown -R jenkins "$JENKINS_HOME" /usr/share/jenkins/ref
 
 # Expose our web root and log directories log.
